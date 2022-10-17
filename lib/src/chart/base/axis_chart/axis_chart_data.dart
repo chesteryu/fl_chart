@@ -112,7 +112,7 @@ class TitleMeta {
 /// It gives you the axis value and gets a String value based on it.
 typedef GetTitleWidgetFunction = Widget Function(double value, TitleMeta meta);
 
-typedef GetTitleLocationFunction = List<double> Function();
+typedef GetTitleLocationFunction = List<double> Function(double min, double max);
 
 /// The default [SideTitles.getTitlesWidget] function.
 ///
