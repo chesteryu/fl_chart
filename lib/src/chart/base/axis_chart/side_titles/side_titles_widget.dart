@@ -130,12 +130,13 @@ class SideTitlesWidget extends StatelessWidget {
         return AxisSideTitleMetaData(xValue.toDouble(), xLocation);
       }).toList();
     } else {
-      final axisValues = AxisChartHelper().iterateThroughAxis(
+      final axisValues = sideTitles.getTitlesLocation != null ? sideTitles.getTitlesLocation!.call() : AxisChartHelper().iterateThroughAxis(
         min: axisMin,
         max: axisMax,
         baseLine: axisBaseLine,
         interval: interval,
       );
+
       axisPositions = axisValues.map((axisValue) {
         final axisDiff = axisMax - axisMin;
         var portion = 0.0;

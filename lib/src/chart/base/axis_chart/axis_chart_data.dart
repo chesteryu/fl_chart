@@ -112,6 +112,8 @@ class TitleMeta {
 /// It gives you the axis value and gets a String value based on it.
 typedef GetTitleWidgetFunction = Widget Function(double value, TitleMeta meta);
 
+typedef GetTitleLocationFunction = List<double> Function();
+
 /// The default [SideTitles.getTitlesWidget] function.
 ///
 /// formats the axis number to a shorter string using [formatNumber].
@@ -141,11 +143,12 @@ class SideTitles with EquatableMixin {
   ///
   /// Texts are showing with provided [interval]. If you don't provide anything,
   /// we try to find a suitable value to set as [interval] under the hood.
-  SideTitles({
+  SideTitles( {
     bool? showTitles,
     GetTitleWidgetFunction? getTitlesWidget,
     double? reservedSize,
     this.interval,
+    this.getTitlesLocation,
   })  : showTitles = showTitles ?? false,
         getTitlesWidget = getTitlesWidget ?? defaultGetTitle,
         reservedSize = reservedSize ?? 22 {
@@ -168,6 +171,8 @@ class SideTitles with EquatableMixin {
   /// Texts are showing with provided [interval]. If you don't provide anything,
   /// we try to find a suitable value to set as [interval] under the hood.
   final double? interval;
+
+  final GetTitleLocationFunction? getTitlesLocation;
 
   /// Lerps a [SideTitles] based on [t] value, check [Tween.lerp].
   static SideTitles lerp(SideTitles a, SideTitles b, double t) {
