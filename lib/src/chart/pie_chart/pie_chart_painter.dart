@@ -99,7 +99,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       final section = data.sections[i];
       final sectionDegree = sectionsAngle[i];
       var actualRadius = section.radius > viewSize.width / 2 ? viewSize.width / 2  : section.radius;
-      section.radius = actualRadius;
+
       if (sectionDegree == 360) {
         _sectionPaint
           ..color = section.color
@@ -135,7 +135,9 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
       final sectionPath = generateSectionPath(
         section,
+        actualRadius,
         data.sectionsSpace,
+
         tempAngle,
         sectionDegree,
         center,
@@ -152,6 +154,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
   @visibleForTesting
   Path generateSectionPath(
     PieChartSectionData section,
+    double actualRadius,
     double sectionSpace,
     double tempAngle,
     double sectionDegree,
@@ -161,7 +164,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
     final sectionRadiusRect = Rect.fromCircle(
       center: center,
-      radius: centerRadius + section.radius,
+      radius: centerRadius + actualRadius,
     );
 
     final centerRadiusRect = Rect.fromCircle(
@@ -177,13 +180,13 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         Offset(math.cos(startRadians), math.sin(startRadians));
 
     final startLineFrom = center + startLineDirection * centerRadius;
-    final startLineTo = startLineFrom + startLineDirection * section.radius;
+    final startLineTo = startLineFrom + startLineDirection *         actualRadius;
     final startLine = Line(startLineFrom, startLineTo);
 
     final endLineDirection = Offset(math.cos(endRadians), math.sin(endRadians));
 
     final endLineFrom = center + endLineDirection * centerRadius;
-    final endLineTo = endLineFrom + endLineDirection * section.radius;
+    final endLineTo = endLineFrom + endLineDirection *         actualRadius;
     final endLine = Line(endLineFrom, endLineTo);
 
     var sectionPath = Path()
