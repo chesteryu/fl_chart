@@ -93,14 +93,16 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
     var tempAngle = data.startDegreeOffset;
 
+
+
     for (var i = 0; i < data.sections.length; i++) {
       final section = data.sections[i];
       final sectionDegree = sectionsAngle[i];
-
+      var actualRadius = section.radius > viewSize.width / 2 ? viewSize.width : section.radius;
       if (sectionDegree == 360) {
         _sectionPaint
           ..color = section.color
-          ..strokeWidth = section.radius
+          ..strokeWidth = actualRadius
           ..style = PaintingStyle.stroke;
         canvasWrapper.drawCircle(
           center,
