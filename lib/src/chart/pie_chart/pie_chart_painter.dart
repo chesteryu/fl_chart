@@ -118,7 +118,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           canvasWrapper
             ..drawCircle(
               center,
-              centerRadius + section.radius - (section.borderSide.width / 2),
+              centerRadius + actualRadius - (section.borderSide.width / 2),
               _sectionStrokePaint,
             )
 
