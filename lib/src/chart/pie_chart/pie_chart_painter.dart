@@ -98,7 +98,8 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     for (var i = 0; i < data.sections.length; i++) {
       final section = data.sections[i];
       final sectionDegree = sectionsAngle[i];
-      var actualRadius = section.radius > viewSize.width / 2 ? viewSize.width : section.radius;
+      var actualRadius = section.radius > viewSize.width / 2 ? viewSize.width / 2  : section.radius;
+      section.radius = actualRadius;
       if (sectionDegree == 360) {
         _sectionPaint
           ..color = section.color
@@ -157,6 +158,8 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     Offset center,
     double centerRadius,
   ) {
+    final viewSize = canvasWrapper.size;
+    var actualRadius = section.radius > viewSize.width / 2 ? viewSize.width / 2  : section.radius;
     final sectionRadiusRect = Rect.fromCircle(
       center: center,
       radius: centerRadius + section.radius,
