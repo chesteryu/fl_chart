@@ -158,8 +158,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     Offset center,
     double centerRadius,
   ) {
-    final viewSize = canvasWrapper.size;
-    var actualRadius = section.radius > viewSize.width / 2 ? viewSize.width / 2  : section.radius;
+
     final sectionRadiusRect = Rect.fromCircle(
       center: center,
       radius: centerRadius + section.radius,
