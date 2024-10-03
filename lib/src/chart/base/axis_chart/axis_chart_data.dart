@@ -127,6 +127,9 @@ class TitleMeta {
 /// It gives you the axis value and gets a String value based on it.
 typedef GetTitleWidgetFunction = Widget Function(double value, TitleMeta meta);
 
+typedef GetTitleLocationFunction = List<double> Function(
+    double min, double max);
+
 /// The default [SideTitles.getTitlesWidget] function.
 ///
 /// formats the axis number to a shorter string using [formatNumber].
@@ -163,6 +166,7 @@ class SideTitles with EquatableMixin {
     this.interval,
     this.minIncluded = true,
     this.maxIncluded = true,
+    this.getTitlesLocation,
   }) : assert(interval != 0, "SideTitles.interval couldn't be zero");
 
   /// Determines showing or hiding this side titles
@@ -187,6 +191,8 @@ class SideTitles with EquatableMixin {
   /// If true (default), a title for the maximum data value is included
   /// independent of the sampling interval
   final bool maxIncluded;
+
+  final GetTitleLocationFunction? getTitlesLocation;
 
   /// Lerps a [SideTitles] based on [t] value, check [Tween.lerp].
   static SideTitles lerp(SideTitles a, SideTitles b, double t) {
