@@ -101,9 +101,6 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     for (var i = 0; i < data.sections.length; i++) {
       final section = data.sections[i];
       final sectionDegree = sectionsAngle[i];
-      var actualRadius = section.radius > viewSize.width / 2
-          ? viewSize.width / 2
-          : section.radius;
 
       if (sectionDegree == 360) {
         final radius = centerRadius + section.radius / 2;
@@ -114,12 +111,12 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
             section.gradient,
             rect,
           )
-          ..strokeWidth = actualRadius
-          ..style = PaintingStyle.stroke;
+          ..strokeWidth = section.radius
+          ..style = PaintingStyle.fill;
 
         final bounds = Rect.fromCircle(
           center: center,
-          radius: centerRadius + actualRadius,
+          radius: centerRadius + section.radius,
         );
         canvasWrapper
           ..saveLayer(bounds, _sectionSaveLayerPaint)
@@ -144,7 +141,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           canvasWrapper
             ..drawCircle(
               center,
-              centerRadius + actualRadius - (section.borderSide.width / 2),
+              centerRadius + section.radius - (section.borderSide.width / 2),
               _sectionStrokePaint,
             )
 
@@ -160,7 +157,6 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
       final sectionPath = generateSectionPath(
         section,
-        actualRadius,
         data.sectionsSpace,
         tempAngle,
         sectionDegree,
@@ -178,7 +174,6 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
   @visibleForTesting
   Path generateSectionPath(
     PieChartSectionData section,
-    double actualRadius,
     double sectionSpace,
     double tempAngle,
     double sectionDegree,
@@ -187,7 +182,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
   ) {
     final sectionRadiusRect = Rect.fromCircle(
       center: center,
-      radius: centerRadius + actualRadius,
+      radius: centerRadius + section.radius,
     );
 
     final centerRadiusRect = Rect.fromCircle(
@@ -203,13 +198,13 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         Offset(math.cos(startRadians), math.sin(startRadians));
 
     final startLineFrom = center + startLineDirection * centerRadius;
-    final startLineTo = startLineFrom + startLineDirection * actualRadius;
+    final startLineTo = startLineFrom + startLineDirection * section.radius;
     final startLine = Line(startLineFrom, startLineTo);
 
     final endLineDirection = Offset(math.cos(endRadians), math.sin(endRadians));
 
     final endLineFrom = center + endLineDirection * centerRadius;
-    final endLineTo = endLineFrom + endLineDirection * actualRadius;
+    final endLineTo = endLineFrom + endLineDirection * section.radius;
     final endLine = Line(endLineFrom, endLineTo);
 
     var sectionPath = Path()
